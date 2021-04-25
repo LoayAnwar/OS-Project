@@ -65,7 +65,7 @@
      <number>38</number>
     </attribute>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -123,11 +123,11 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>220</y>
+      <x>550</x>
+      <y>70</y>
       <width>181</width>
       <height>51</height>
      </rect>
@@ -156,6 +156,24 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="submit">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>150</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Simulate</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
