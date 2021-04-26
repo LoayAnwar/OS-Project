@@ -2,6 +2,18 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
+
+struct Process
+{
+    int pid;
+    float arrival_time;
+    float burst_time;
+    int priority;
+    float waiting_time;
+    float start_time;
+    float finish_time;
+};
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
