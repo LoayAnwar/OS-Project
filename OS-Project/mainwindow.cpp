@@ -5,7 +5,17 @@
 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
+struct Process {
+    int pid;
+    float arrival_time;
+    float burst_time;
+    int priority;
+    float waiting_time;
+    float start_time;
+    float finish_time;
+};
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -211,16 +221,98 @@ void  MainWindow::sj_permiavtive()
     }
 }
 
+void MainWindow::sj_non()
+{
+    QString string = ui->lineEdit->text();
+    int x = string.toInt();
+    vector<struct Process> process(x);
+    vector<float> duration(x);
+    vector<float> pid(x);
+    vector<float> start_time(x);
+    vector<float> finish_time(x);
+    for (int i = 0; i < x; i++)
+      {
+          QString string_1 = ui->tableWidget->item(i, 0)->text();
+          process[i].arrival_time = string_1.toDouble();
+          QString string_2 = ui->tableWidget->item(i, 1)->text();
+          process[i].burst_time = string_2.toInt();
+      }
+
+    float current_time = 0;
+        int completed_process = 0;
+        vector<bool> is_completed(x);
+        bool first_process = true;
+        while (completed_process != x) {
+            int index = -1;
+            int min = 100000;
+            for (int i = 0; i < x; i++) {
+                if (process[i].arrival_time <= current_time && !is_completed[i]) {
+                    if (process[i].burst_time < min) {
+                        min = process[i].burst_time;
+                        index = i;
+                    }
+                    if (process[i].burst_time == min) {
+                        if (process[i].arrival_time < process[index].arrival_time) {
+                            min = process[i].burst_time;
+                            index = i;
+                        }
+                    }
+                }
+            }
+            if (index != -1) {
+                if (first_process) {
+                    process[index].start_time = process[index].arrival_time;
+                    first_process = false;
+                }
+                else
+                    process[index].start_time = current_time;
+                process[index].finish_time = process[index].start_time + process[index].burst_time;
+                float waitint_time = process[index].finish_time - process[index].arrival_time -
+                                     process[index].burst_time;
+                process[index].waiting_time = waitint_time;
+                is_completed[index] = true;
+                completed_process++;
+                current_time = process[index].finish_time;
+
+            }
+            else
+                current_time++;
+        }
+
+        //for sorting
+        int min_index;
+        for (int i = 0; i < x - 1; i++) {
+            min_index = i;
+            for (int j = i + 1; j < x; j++)
+                if (process[j].start_time < process[min_index].start_time)
+                    min_index = j;
+            swap(process[min_index].start_time, process[i].start_time);
+            swap(process[min_index].finish_time, process[i].finish_time);
+            swap(process[min_index].pid, process[i].pid);
+            swap(process[min_index].arrival_time, process[i].arrival_time);
+            swap(process[min_index].burst_time, process[i].burst_time);
+            swap(process[min_index].waiting_time, process[i].waiting_time);
+        }
+        for (int i = 0; i < x; i++) {
+            pid[i] = process[i].pid;
+            duration[i] = process[i].finish_time - process[i].start_time;
+            finish_time[i] = process[i].finish_time;
+            start_time[i] = process[i].start_time;
+        }
+}
+
+
+
 void MainWindow::round_robin()
 {
     float temp1;
-            int temp2, temp3;
-            QString string = ui->lineEdit->text();
-            QVector<float> arrival(string.toInt());
-            QVector<int> burst_time(string.toInt());
-            QVector<int> process(string.toInt());
-            QVector<int> queue(string.toInt());
-            QVector<int> duration(string.toInt());
+    int temp2, temp3;
+    QString string = ui->lineEdit->text();
+    QVector<float> arrival(string.toInt());
+    QVector<int> burst_time(string.toInt());
+    QVector<int> process(string.toInt());
+    QVector<int> queue(string.toInt());
+    QVector<int> duration(string.toInt());
 
             for (int i = 0; i < string.toInt(); i++)
             {
@@ -254,22 +346,13 @@ void MainWindow::round_robin()
                 duration[i] = burst_time[i];
             }
 
-            struct process {
-                    int pid;
-                    float arrival_time;
-                    float burst_time;
-                    int priority;
-                    float start_time;
-                    float finish_time;
-                };
-
                 int n = string.toInt();
                 int quantum = (ui->lineEdit_2->text()).toInt();
-                std::vector<struct process> p;
+                std::vector<struct Process> p;
                 std::vector<int> process_id;
                 std::vector<float> process_duration;
 
-                struct process temp;
+                struct Process temp;
 
                 for (int i =0 ; i<n ;i++)
                 {
@@ -297,8 +380,8 @@ void MainWindow::round_robin()
 //                p[5].arrival_time = 6;
 //                p[5].burst_time = 3;
 
-                std::queue<struct process> q;
-                std::queue <struct process> ready_q;
+                std::queue<struct Process> q;
+                std::queue <struct Process> ready_q;
 
 
                 for (int i = 0; i < n; i++) {
@@ -516,4 +599,82 @@ void  MainWindow::fcfs()
 
 void MainWindow::priority_non()
 {
+    QString string = ui->lineEdit->text();
+    int x = string.toInt();
+    vector<float> duration(x);
+    vector<float> pid(x);
+    vector<float> start_time(x);
+    vector<float> finish_time(x);
+    vector<struct Process> process(x);
+    for (int i = 0; i < x; i++)
+      {
+          QString string_1 = ui->tableWidget->item(i, 0)->text();
+          process[i].arrival_time = string_1.toDouble();
+          QString string_2 = ui->tableWidget->item(i, 1)->text();
+          process[i].burst_time = string_2.toInt();
+          QString string_3 = ui->tableWidget->item(i, 2)->text();
+          process[i].priority = string_3.toInt();
+
+      }
+    float current_time = 0;
+        int completed_process = 0;
+        vector<bool> is_completed(x);
+        bool first_process = true;
+        while (completed_process != x) {
+            int index = -1;
+            int min = 100000;
+            for (int i = 0; i < x; i++) {
+                if (process[i].arrival_time <= current_time && !is_completed[i]) {
+                    if (process[i].priority < min) {
+                        min = process[i].priority;
+                        index = i;
+                    }
+                    if (process[i].priority == min) {
+                        if (process[i].arrival_time < process[index].arrival_time) {
+                            min = process[i].priority;
+                            index = i;
+                        }
+                    }
+                }
+            }
+            if (index != -1) {
+                if (first_process) {
+                    process[index].start_time = process[index].arrival_time;
+                    first_process = false;
+                }
+                else
+                    process[index].start_time = current_time;
+                process[index].finish_time = process[index].start_time + process[index].burst_time;
+                float waitint_time = process[index].finish_time - process[index].arrival_time -
+                                     process[index].burst_time;
+                process[index].waiting_time = waitint_time;
+                is_completed[index] = true;
+                completed_process++;
+                current_time = process[index].finish_time;
+
+            }
+            else
+                current_time++;
+        }
+        // for sorting
+        int min_index;
+        for (int i = 0; i < x - 1; i++) {
+                min_index = i;
+                for (int j = i + 1; j < x; j++)
+                    if (process[j].start_time < process[min_index].start_time)
+                        min_index = j;
+                swap(process[min_index].start_time, process[i].start_time);
+                swap(process[min_index].finish_time, process[i].finish_time);
+                swap(process[min_index].pid, process[i].pid);
+                swap(process[min_index].arrival_time, process[i].arrival_time);
+                swap(process[min_index].burst_time, process[i].burst_time);
+                swap(process[min_index].waiting_time, process[i].waiting_time);
+                swap(process[min_index].priority, process[i].priority);
+            }
+            for (int i = 0; i < x; i++) {
+                pid[i] = process[i].pid;
+                duration[i] = process[i].finish_time - process[i].start_time;
+                finish_time[i] = process[i].finish_time;
+                start_time[i] = process[i].start_time;
+            }
 }
