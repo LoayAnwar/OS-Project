@@ -43,7 +43,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//void priority_non();
+
 void MainWindow::on_pushButton_clicked()
 {
     if(ui->comboBox->currentIndex()==-1 || (ui->lineEdit->text() == "")){
@@ -132,7 +132,7 @@ void MainWindow::draw(vector<struct Process> process) {
 
 void MainWindow::draw_color_process(vector<struct Process> process) {
     for (int i = 0; i < process.size(); i++){
-        QBrush color_brush(QColor(colors[i]));
+        QBrush color_brush(QColor(process[i].color));
         QPen blackpen(Qt::black);
         blackpen.setWidth(1);
         QGraphicsTextItem *txtitem = new QGraphicsTextItem("P" + QString::number(i + 1));
@@ -194,6 +194,7 @@ void  MainWindow::sj_permiavtive()
           actual_process[i].arrival_time = string_1.toDouble();
           actual_process[i].pid = i + 1;
           actual_process[i].burst_time = string_2.toInt();
+          actual_process[i].color = colors[i];
       }
 
     sort(arrival_time_sorted.begin(), arrival_time_sorted.end());
@@ -438,6 +439,7 @@ void MainWindow::round_robin()
                 actual_process[i].arrival_time = arrival[i];
                 actual_process[i].pid = i + 1;
                 actual_process[i].burst_time = burst_time[i];
+                actual_process[i].color = colors[i];
 
             }
             for (int i = 0; i < string.toInt(); i++)
@@ -585,6 +587,7 @@ void  MainWindow::priority_premative()
           actual_process[i].arrival_time = string_1.toDouble();
           actual_process[i].pid = i + 1;
           actual_process[i].burst_time = string_2.toInt();
+          actual_process[i].color = colors[i];
       }
 
     sort(arrival_time_sorted.begin(), arrival_time_sorted.end());
