@@ -767,8 +767,10 @@ void  MainWindow::fcfs()
             {
                     if (i == 0)
                         start_time[i] = arrival[i];
-                    else
+                    else if (finish_time[i - 1] > arrival[i])
                         start_time[i] = finish_time[i-1];
+                    else
+                        start_time[i] = arrival[i];
                     finish_time[i] = start_time[i] + burst_time[i];
                     p[i].start_time = start_time[i];
                     p[i].finish_time = finish_time[i];
