@@ -17,8 +17,11 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
+    void sj_permiavtive();
+    void priority_premative();
+    void fcfs();
     void on_submit_clicked();
+    void round_robin();
 
 private:
     Ui::MainWindow *ui;
