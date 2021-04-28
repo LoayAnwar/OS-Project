@@ -190,7 +190,7 @@ void  MainWindow::sj_permiavtive()
           arrival_time.push_back(string_1.toDouble());
           arrival_time_sorted.push_back(string_1.toDouble());
           QString string_2 = ui->tableWidget->item(i, 1)->text();
-          duration_time.push_back(string_2.toInt());
+          duration_time.push_back(string_2.toDouble());
           actual_process[i].arrival_time = string_1.toDouble();
           actual_process[i].pid = i + 1;
           actual_process[i].burst_time = string_2.toInt();
@@ -348,7 +348,7 @@ void MainWindow::sj_non()
           QString string_1 = ui->tableWidget->item(i, 0)->text();
           process[i].arrival_time = string_1.toDouble();
           QString string_2 = ui->tableWidget->item(i, 1)->text();
-          process[i].burst_time = string_2.toInt();
+          process[i].burst_time = string_2.toDouble();
           process[i].pid = i + 1;
           process[i].color = colors[i];
       }
@@ -423,17 +423,17 @@ void MainWindow::round_robin()
     int temp2, temp3;
     QString string = ui->lineEdit->text();
     vector<float> arrival(string.toInt());
-    vector<int> burst_time(string.toInt());
+    vector<double> burst_time(string.toInt());
     vector<int> process(string.toInt());
-    vector<int> queue(string.toInt());
-    vector<int> duration(string.toInt());
+    vector<double> queue(string.toInt());
+    vector<double> duration(string.toInt());
     vector<struct Process> actual_process(string.toInt());
             for (int i = 0; i < string.toInt(); i++)
             {
                 QString string_1 = ui->tableWidget->item(i,0)->text();
                 arrival[i] = string_1.toFloat();
                 QString string_2 = ui->tableWidget->item(i,1)->text();
-                burst_time[i] = string_2.toInt();
+                burst_time[i] = string_2.toDouble();
                 process[i] = i;
                 actual_process[i].arrival_time = arrival[i];
                 actual_process[i].pid = i + 1;
@@ -579,7 +579,7 @@ void  MainWindow::priority_premative()
           arrival_time.push_back(string_1.toDouble());
           arrival_time_sorted.push_back(string_1.toDouble());
           QString string_2 = ui->tableWidget->item(i, 1)->text();
-          duration_time.push_back(string_2.toInt());
+          duration_time.push_back(string_2.toDouble());
           QString string_3 = ui->tableWidget->item(i, 2)->text();
           priority.push_back(string_3.toInt());
           actual_process[i].arrival_time = string_1.toDouble();
@@ -729,17 +729,17 @@ void  MainWindow::fcfs()
             int temp2, temp3;
             QString string = ui->lineEdit->text();
             vector<float> arrival(string.toInt());
-            vector<int> burst_time(string.toInt());
+            vector<double> burst_time(string.toInt());
             vector<int> process(string.toInt());
-            vector<int> queue(string.toInt());
-            vector<int> duration(string.toInt());
+            vector<double> queue(string.toInt());
+            vector<double> duration(string.toInt());
 
             for (int i = 0; i < string.toInt(); i++)
             {
                 QString string_1 = ui->tableWidget->item(i,0)->text();
                 arrival[i] = string_1.toFloat();
                 QString string_2 = ui->tableWidget->item(i,1)->text();
-                burst_time[i] = string_2.toInt();
+                burst_time[i] = string_2.toDouble();
                 process[i] = i;
             }
             for (int i = 0; i < string.toInt(); i++)
@@ -798,7 +798,7 @@ void MainWindow::priority_non()
           QString string_1 = ui->tableWidget->item(i, 0)->text();
           process[i].arrival_time = string_1.toDouble();
           QString string_2 = ui->tableWidget->item(i, 1)->text();
-          process[i].burst_time = string_2.toInt();
+          process[i].burst_time = string_2.toDouble();
           QString string_3 = ui->tableWidget->item(i, 2)->text();
           process[i].priority = string_3.toInt();
           process[i].pid = i + 1;
