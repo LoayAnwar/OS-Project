@@ -94,7 +94,7 @@ void MainWindow::draw(vector<struct Process> process) {
                 rectangle=scene->addRect(-200+Rectangle_Width*process[i - 1].finish_time,0,Rectangle_Width*(process[i].start_time-process[i-1].finish_time),Rectangle_Height,blackpen, color_brush);
                 QString start = QString::number(process[i-1].finish_time);
                 QGraphicsTextItem *txtitem = new QGraphicsTextItem(start);
-                txtitem->setPos(QPointF(-200+Rectangle_Width*(process[i].start_time-process[i-1].finish_time), 100));
+                txtitem->setPos(QPointF(-200+Rectangle_Width*process[i-1].finish_time, 100));
                 scene->addItem(txtitem);
                 t.start();
                 while(t.elapsed() < 1000)
